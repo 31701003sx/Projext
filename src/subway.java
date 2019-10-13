@@ -12,7 +12,7 @@ import java.util.Stack;
 
 
 public class subway {
-	//ÊôĞÔ£¨µØÌúÏßÂ·+Ëùº¬Õ¾µã£©
+	//å±æ€§ï¼ˆåœ°é“çº¿è·¯+æ‰€å«ç«™ç‚¹ï¼‰
 	String sub_name;
 	List<String> station_name;
 	public String getSub_name() {
@@ -28,7 +28,7 @@ public class subway {
 		this.station_name = station_name;
 	}
 	
-	//subwayÀàµÄÊı×é
+	//subwayç±»çš„æ•°ç»„
 	public List<subway> map;
 	
 	public List<subway> getMap() {
@@ -38,22 +38,22 @@ public class subway {
 		this.map = map;
 	}
 	
-	//Õ¾µã¼ÆÊı
+	//ç«™ç‚¹è®¡æ•°
 	public static  int sta_num=0;
-	//ÎªÕ¾µã¸³id
+	//ä¸ºç«™ç‚¹èµ‹id
 	public static HashMap<String,Integer> sta_id=new HashMap<String,Integer>();
 	public static HashMap<Integer,String> sta_id2=new HashMap<Integer,String>();
-	//¼ÇÂ¼½ÚµãÖ®¼äµÄ¾àÀë
+	//è®°å½•èŠ‚ç‚¹ä¹‹é—´çš„è·ç¦»
 	public static int[][] distance=new int[500][500];
-	//ÎªµØÌúÏß¸³id
+	//ä¸ºåœ°é“çº¿èµ‹id
 	public static HashMap<String,Integer> sub_id=new HashMap<String,Integer>();
 	public static HashMap<Integer,String> sub_id2=new HashMap<Integer,String>();
-	//¼ÇÂ¼Õ¾µãËùÔÚµØÌúÏßÂ·
+	//è®°å½•ç«™ç‚¹æ‰€åœ¨åœ°é“çº¿è·¯
 	public static int[][] belong=new int[1000][1000];
 	
-	//¶ÁÈ¡Êı¾İ
+	//è¯»å–æ•°æ®
 	public List<subway> ReadData(String name){
-		 //³õÊ¼»¯¸÷¸ö½ÚµãÊÇ·ñÁ¬½ÓµÄÁÚ½Ó¾ØÕó
+		 //åˆå§‹åŒ–å„ä¸ªèŠ‚ç‚¹æ˜¯å¦è¿æ¥çš„é‚»æ¥çŸ©é˜µ
 		for(int k=0;k<500;k++)
 			for(int h=0;h<500;h++) {
 				if(k==h)
@@ -67,18 +67,18 @@ public class subway {
 		
 		String pathname = "C:\\Users\\Administrator\\Desktop\\"+name;
 		try (FileReader reader = new FileReader(pathname);
-	             BufferedReader br = new BufferedReader(reader) // ½¨Á¢Ò»¸ö¶ÔÏó£¬Ëü°ÑÎÄ¼şÄÚÈİ×ª³É¼ÆËã»úÄÜ¶Á¶®µÄÓïÑÔ
+	             BufferedReader br = new BufferedReader(reader) // å»ºç«‹ä¸€ä¸ªå¯¹è±¡ï¼Œå®ƒæŠŠæ–‡ä»¶å†…å®¹è½¬æˆè®¡ç®—æœºèƒ½è¯»æ‡‚çš„è¯­è¨€
 	        ) {
 	            String cont;
-	            int line_count=0;//ĞĞÊı
+	            int line_count=0;//è¡Œæ•°
 	            subway m=new subway();
 	            int index=1;
-	            // Ò»´Î¶ÁÈëÒ»ĞĞÊı¾İ
+	            // ä¸€æ¬¡è¯»å…¥ä¸€è¡Œæ•°æ®
 	            while ((cont = br.readLine()) != null) {
 	            	if(line_count%2==0) {
 	            		m.setSub_name(cont);
 	            		
-	            		//ÎªµØÌúÏß¸³id
+	            		//ä¸ºåœ°é“çº¿èµ‹id
 	            		sub_id.put(cont, index);
 	            		sub_id2.put(index, cont);
 	            		
@@ -86,42 +86,42 @@ public class subway {
 	            	else {
 	            		boolean first=true;
 	            		String pre_sta=null;
-	            		List<String> sta_name=new ArrayList<String>();//µØÌúÏßËùº¬Õ¾µãÃû³Æ
+	            		List<String> sta_name=new ArrayList<String>();//åœ°é“çº¿æ‰€å«ç«™ç‚¹åç§°
 	            		
 	            		String [] arr = cont.split("\\s+");
 	                    for(String ss : arr){
 	                    	sta_name.add(ss); 
 	                    	
 	                    	if(sta_id.get(ss)==null) {
-	                    		sta_id.put(ss, sta_num);//¸³idºÅ
+	                    		sta_id.put(ss, sta_num);//èµ‹idå·
 	                    		sta_id2.put(sta_num, ss);
 	                    		
 	                    	}                    	
 	                    	belong[sta_id.get(ss)][index]=1;     			
 	                    	//System.out.print(sta_id.get(ss));
 	                    	if(first) {
-	                    		pre_sta=ss;//±£´æÇ°Ò»¸öÕ¾µã
+	                    		pre_sta=ss;//ä¿å­˜å‰ä¸€ä¸ªç«™ç‚¹
 	                    		first=false;
 	                    	}
 	                    	else {
 	                    		distance[sta_id.get(pre_sta).intValue()][sta_id.get(ss).intValue()]=1;
-	                    		distance[sta_id.get(ss).intValue()][sta_id.get(pre_sta).intValue()]=1;//½«ÏàÁÚ½Úµã¾àÀëÖÃÎª1
+	                    		distance[sta_id.get(ss).intValue()][sta_id.get(pre_sta).intValue()]=1;//å°†ç›¸é‚»èŠ‚ç‚¹è·ç¦»ç½®ä¸º1
 	                    		pre_sta=ss;
 	                    	}
 	                    	
 	                    	sta_num++;
 	                    }
 	                    index++;
-	                    //¶Ô»·ĞÎÂ·ÏßµÄÊ×Î²Õ¾ÏàÁ¬
-	                    if(m.getSub_name().equals("2ºÅÏß")) {
-	                    	int firstid=sta_id.get("»ıË®Ì¶");
-	                    	int endid=sta_id.get("Î÷Ö±ÃÅ");
+	                    //å¯¹ç¯å½¢è·¯çº¿çš„é¦–å°¾ç«™ç›¸è¿
+	                    if(m.getSub_name().equals("2å·çº¿")) {
+	                    	int firstid=sta_id.get("ç§¯æ°´æ½­");
+	                    	int endid=sta_id.get("è¥¿ç›´é—¨");
 	                    	distance[firstid][endid]=1;
 	                    	distance[endid][firstid]=1;
 	                    }
-	                    if(m.getSub_name().equals("10ºÅÏß")) {
-	                    	int firstid=sta_id.get("°Í¹µ");
-	                    	int endid=sta_id.get("»ğÆ÷Óª");
+	                    if(m.getSub_name().equals("10å·çº¿")) {
+	                    	int firstid=sta_id.get("å·´æ²Ÿ");
+	                    	int endid=sta_id.get("ç«å™¨è¥");
 	                    	distance[firstid][endid]=1;
 	                    	distance[endid][firstid]=1;
 	                    }
@@ -132,7 +132,7 @@ public class subway {
 	            	line_count++;
 	            	if(line_count%2==0) {
 	            		map.add(m);
-	            		m=new subway();//µØÌú½á¹¹	
+	            		m=new subway();//åœ°é“ç»“æ„	
 	            	}	
 	            }
 	            
@@ -143,7 +143,7 @@ public class subway {
 		return map;
 	}
 	
-	//¹¦ÄÜ1£ºÊä³öÖ¸¶¨µØÌúµÄËùº¬Õ¾µã
+	//åŠŸèƒ½1ï¼šè¾“å‡ºæŒ‡å®šåœ°é“çš„æ‰€å«ç«™ç‚¹
 	public void Print(String sub,List<subway> map,String place) {
 		String way=new String();
 		
@@ -155,7 +155,7 @@ public class subway {
 				for(j=0;j<m.getStation_name().size();j++) {
 					way=way+m.getStation_name().get(j)+" ";
 				}
-				//½«Â·ÏßĞ´Èëstation.txtÎÄ¼şÖĞ
+				//å°†è·¯çº¿å†™å…¥station.txtæ–‡ä»¶ä¸­
 				char[] text = way.toCharArray();
 				File file = new File(place);
 				FileWriter out;
@@ -171,37 +171,40 @@ public class subway {
 			}	
 		}
 		if(j==0)
-			System.out.println("µØÌúÏßÂ·ÊäÈëÓĞÎó£¡"); 
+			System.out.println("åœ°é“çº¿è·¯è¾“å…¥æœ‰è¯¯ï¼"); 
 		
 		
 	}
 	
-	//¹¦ÄÜ2£ºÊä³ö×î¶ÌÂ·¾¶
+	//åŠŸèƒ½2ï¼šè¾“å‡ºæœ€çŸ­è·¯å¾„
 	public ArrayList<Object> floyd(String start,String end,String place)
     {
 		ArrayList<Object> arrayList=new ArrayList<Object>();
 		
-		//ÕÒÕ¾µã¶ÔÓ¦µÄid
+		//æ‰¾ç«™ç‚¹å¯¹åº”çš„id
 		if(sta_id.get(start)==null) {
-			System.out.println("ÆğÊ¼Õ¾ÊäÈëÓĞÎó£¡");
+			System.out.println("èµ·å§‹ç«™è¾“å…¥æœ‰è¯¯ï¼");
 			return null;
 		}
 			
 		if(sta_id.get(end)==null) {
-			System.out.println("ÖÕµãÕ¾ÊäÈëÓĞÎó£¡");
+			System.out.println("ç»ˆç‚¹ç«™è¾“å…¥æœ‰è¯¯ï¼");
 			return null;
 		}
-			
+		if(sta_id.get(start)==sta_id.get(end)){
+			System.out.println("æ— éœ€ä¹˜ååœ°é“ï¼");
+			return null;
+		}	
 		int startid=sta_id.get(start);
 		int endid=sta_id.get(end);
 		
-        //³õÊ¼»¯path¾ØÕó
+        //åˆå§‹åŒ–pathçŸ©é˜µ
 		int[][] path=new int[sta_num][sta_num];
         for(int row=0;row<sta_num;row++)
             for(int col=0;col<sta_num;col++)
                 path[row][col]=row;
         
-        //ÕÒ×î¶ÌÂ·¾¶
+        //æ‰¾æœ€çŸ­è·¯å¾„
         for(int k=0;k<sta_num;k++) {
         	for(int i=0;i<sta_num;i++) 
                 for(int j=0;j<sta_num;j++)
@@ -221,10 +224,10 @@ public class subway {
         for(int i=0;i<sta_num;i++)
             for(int j=0;j<sta_num;j++)
             {
-                if(i==startid&&j==endid) //Êä³öÂ·¾¶
+                if(i==startid&&j==endid) //è¾“å‡ºè·¯å¾„
                 {
-                    Stack<Integer>pathrout=new Stack<>();//Ñ¹Õ»
-                    pathrout.push(endid);//¼ÓÈëÖÕµãid
+                    Stack<Integer>pathrout=new Stack<>();//å‹æ ˆ
+                    pathrout.push(endid);//åŠ å…¥ç»ˆç‚¹id
                     int k=j;
                     do{
                         k=path[i][k];
@@ -233,27 +236,27 @@ public class subway {
                     }while(k!=i);
                     
                     
-					//µ¯Õ»
-                    int pre=pathrout.peek();//Ç°Ò»¸öÕ¾µã
+					//å¼¹æ ˆ
+                    int pre=pathrout.peek();//å‰ä¸€ä¸ªç«™ç‚¹
                     line+=sta_id2.get(pathrout.peek())+"\r\n" ;
                     pathrout.pop();
 
                     int length=pathrout.size();
-                    //ÅĞ¶ÏÊÇ·ñÓĞ»»³Ë
+                    //åˆ¤æ–­æ˜¯å¦æœ‰æ¢ä¹˜
                     for(int t=0;t<length;t++) {
-                    	int mid=pathrout.peek();//ÖĞ¼äÕ¾µã
+                    	int mid=pathrout.peek();//ä¸­é—´ç«™ç‚¹
                         line +=  sta_id2.get(pathrout.peek())+"\r\n";
                         pathrout.pop();
                         if(pathrout.size()!=0) {
-                        	int fin=pathrout.peek();//ºóÒ»¸öÕ¾µã
+                        	int fin=pathrout.peek();//åä¸€ä¸ªç«™ç‚¹
                         	for(int h=1;h<=26;h++)
                         	if(belong[fin][h]==1&&belong[mid][h]==1) {
-                        		if(h==sub_id.get("°ËÍ¨Ïß")&&pre==sta_id.get("ËÄ»İ")) {
-                        			line +=  "°ËÍ¨Ïß"+"\r\n";
+                        		if(h==sub_id.get("å…«é€šçº¿")&&pre==sta_id.get("å››æƒ ")) {
+                        			line +=  "å…«é€šçº¿"+"\r\n";
                         			break;
                         		}
                         		
-                        		if(belong[pre][h]!=1&&h!=sub_id.get("°ËÍ¨Ïß")) {
+                        		if(belong[pre][h]!=1&&h!=sub_id.get("å…«é€šçº¿")) {
                         			line +=  sub_id2.get(h)+"\r\n";
                         		}
                         	}		
@@ -265,7 +268,7 @@ public class subway {
                 }
             }
         
-      //½«×î¶ÌÂ·ÏßĞ´Èëroutine.txtÎÄ¼şÖĞ
+      //å°†æœ€çŸ­è·¯çº¿å†™å…¥routine.txtæ–‡ä»¶ä¸­
 		char[] text = line.toCharArray();
 		File file = new File(place);
 		FileWriter out;
@@ -288,7 +291,7 @@ public class subway {
 	
 	public static void main(String args[]) {
 		subway m=new subway();
-		//¹¦ÄÜÄ£¿é
+		//åŠŸèƒ½æ¨¡å—
         if("-map".equals(args[0])) {
         	String name=args[1];
         	m.ReadData(name);
